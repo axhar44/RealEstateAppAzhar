@@ -25,10 +25,10 @@ export default function MyStack(props) {
 
   useEffect(()=>{
     getData();
-    console.log("use effect",axhar);
+    console.log("use effect stack",Active);
    },[]);
 
-   const [axhar, setActive]=useState(false);
+   const [Active, setActive]=useState("");
 
    ///check User Data In your mobile Storage
     const getData = async () => {
@@ -37,34 +37,43 @@ export default function MyStack(props) {
      if(User_Data !="")
       {
         console.log("Active User");
-        setActive(true);
+        setActive(User_Data);
     }else
       {
         console.log("Blank User");
-        setActive(false);
+        setActive("");
       }
      };
-
-
-
   return (  
 
-    <Stack.Navigator
-    headerMode="none" 
-     initialRouteName={'SignUp'}>
 
-  {/* // initialRouteName={axhar == true ? 'Drawer_navigation' : 'SignUp'}>   */}
 
     
-    {/* //  <Stack.Navigator headerMode="none" initialRouteName={'SignUp'}>  */}
-    <Stack.Screen name="Home" component={Home} />
-       <Stack.Screen name="Splash" component={Splash} />
-       <Stack.Screen name="forgot_Password" component={forgot_Password} />
-     <Stack.Screen name="RegisterScreen" component={RegisterScreen} /> 
+    <Stack.Navigator 
+    mode="modal"
+    screenOptions={{
+      headerShown: false,
+    }}>
+     {Active ==null ? (
+          
+            <Stack.Screen name="signUp" component={SignUp} />
+          
+        ) : (
+          
+            <Stack.Screen name="Contacts" component={Contacts} />
+          
+        )}
+    {/* initialRouteName={'signUp'}>
+    initialRouteName={Active === null ? ('Drawer_navigation') : ('signUp')}> */}
+
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Splash" component={Splash} />
+      <Stack.Screen name="forgot_Password" component={forgot_Password} />
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} /> 
       <Stack.Screen name="Drawer_navigation" component={Drawer_navigation} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="Contacts" component={Contacts} />
+      <Stack.Screen name="SignUp" component={SignUp} /> 
+      {/* <Stack.Screen name="Contacts" component={Contacts} /> */}
       <Stack.Screen name="BottomTab" component={BottomTab} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="search_add" component={search_add} />

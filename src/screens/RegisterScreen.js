@@ -40,10 +40,20 @@ export default function RegisterScreen(props) {
   const [isloading, setLoading] = useState(false);
   const [status, setStatus] = useState('');
   let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+  
+  const [value, onChangeText] = useState({
+    first_name: '',
+    last_name: '',
+    phone: '',
+    email: '',
+    password: '',
+   });
 
 
 
   useEffect(()=>{
+
+
     checkPermissions();
   },[])
 
@@ -51,6 +61,7 @@ export default function RegisterScreen(props) {
 
    const storeData = async (value) => {
     console.log('VAlUE_VERIFY', value);
+   
     try {
       const Data = JSON.stringify(value);
       await AsyncStorage.setItem('User_Data', Data);
@@ -73,13 +84,19 @@ export default function RegisterScreen(props) {
     }
   };
 
-  const [value, onChangeText] = useState({
-    first_name: '',
-    last_name: '',
-    phone: '',
-    email: '',
-    password: '',
-   });
+  const StoreUserPhone = async (value)=>{
+    //console.log(value,"user phone number");
+    try
+    {
+       const Code = JSON.stringify(value);
+       await AsyncStorage.setItem('User_Phone', value);
+    }
+    catch(e)
+    {
+      console.log("failed to verify Code Local Storage",e)
+    }
+  };
+
 
 
    const toggleModal = () => {
@@ -142,6 +159,8 @@ export default function RegisterScreen(props) {
       case 'PHONE':
       onChangeText((prevState) => {
      return { ...prevState, phone: val };
+     
+       
         });
         break;
        case 'EMAIL':
@@ -165,6 +184,7 @@ export default function RegisterScreen(props) {
   };
   const { first_name, last_name, phone, email, password } = value;
   storeData(value);
+  StoreUserPhone(value.phone);
 
   const submit = () => {
     fetch(
@@ -187,21 +207,25 @@ export default function RegisterScreen(props) {
       .then((response) => response.json())
       .then((data) => {
     if (data.message ==='Success') {
-         
           setModalVisible(true);
-          props.navigation.navigate('Verification_Screen');
-
           setModalVisiblerror(true);
-          setTimeout(()=>{
+          // setTimeout(()=>{
           setModalVisible(false)
-          },2000);
+          // },2000);
+          props.navigation.navigate('Verification_Screen');
+          checkPer();
         }
     if (data.message ==='Invalid Parameter(s)' ) {
            setModalVisible(true);
             setModalVisiblerror(false);
+            console.log("invakid user email pass")
         }
-          data.message !== 'Invalid Parameter(s)' &&
-           data.message !== 'Already Exist' &&
+        if( data.message === 'Already Exist' )
+        {
+          setModalVisible(true);
+          setModalVisiblerror(true);
+        }
+          data.message !== 'Invalid Parameter(s)' 
             storeVerify(value);
              setMessage(data.message);
          })
@@ -272,6 +296,7 @@ async function checkPermissions() {
   return hasPermissions;
 }
 
+
 const sendMsg = async () => {
   const phoneNumber = {
     addressList: [phone],
@@ -307,8 +332,6 @@ const sendMsg = async () => {
     },
   );
 };
-
-
 const sent = async () => {
   DeviceEventEmitter.addListener('sms_onDelivery', (msg) => {
     console.log('DELIVERED', msg, props);
@@ -321,33 +344,19 @@ const sent = async () => {
 };
 
 
-// const keyboardHidden = () => {
-//   console.log('HIDDEN');
-//   setPhoneNumber(number_code + number);
-// };
-
-setTimeout(
-  () => status == 'SMS sent' && props.navigation.navigate('Verify'),
-  3000,
-);
-
-
 /// end verify code //
   return (
-            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+     <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-
-      
-    <View style={styles.container}>
-    <Image                    
-  style={{backgroundColor:'white', height:800,width:'auto'}}
-       source={require("../../assets/building.jpg")}/>
-
+               <View style={styles.container}>
+                  <Image                    
+                    style={{backgroundColor:'white', height:800,width:'auto'}}
+                      source={require("../../assets/building.jpg")}/>
     <View style={styles.centerizedView}>
-       <View style={styles.logoBox}>
-          <Image source={require('../../assets/homeway.pk-Logo-final-01.png')}
-            style={{height:75,width:75,marginTop:-16}}/>
-             </View>
+               <View style={styles.logoBox}>
+                   <Image source={require('../../assets/homeway.pk-Logo-final-01.png')}
+                     style={{height:75,width:75,marginTop:-16}}/>
+                      </View>
     <View style={styles.authBox}>
           <Text style={styles.loginTitleText}>Register</Text>
              <View style={styles.hr}></View>
@@ -360,7 +369,8 @@ setTimeout(
                             onBlur={() => validation()}
                               autoCapitalize={false}
                                keyboardType='Text'
-                                 textContentType='Text'/>
+                                 textContentType='Text'
+                                 />
                                   <Text style={styles.validation_error}>{Valid_first_name}</Text>
                                    </View>
     <View style={styles.inputBox}>
@@ -419,30 +429,30 @@ setTimeout(
                 onBlur={() => validation()} />
           </View>
 {/* succes modal here  */}
-<View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!toggleModal);
-        }}>
+     <View style={styles.centeredView}>
+              <Modal
+                animationType="slide"
+                  transparent={true}
+                     visible={isModalVisible}
+                       onRequestClose={() => {
+                         Alert.alert("Modal has been closed.");
+                              setModalVisible(!toggleModal);
+                              }}>
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            { isModalVisiblerror == true ? (
-              <Text style={styles.modalText}>
-                  <View style={{marginTop:2,backgroundColor:'red'}}>
-                      <Image
-                        style={{backgroundColor:'white', height:150,width:190}}
-                         resizeMode="stretch"
-                          source={require("../../assets/homeway.pk-Logo-final-01.png")} />
-                          </View>
-                            Congratullation You are Now Register Customer 
-                            </Text>
+                <View style={styles.modalView}>
+                    { isModalVisiblerror == true ? (
+                      <View style={{marginTop:-30}}>
+                        <Image
+                           style={{backgroundColor:'white', height:150,width:190}}
+                            resizeMode="stretch"
+                              source={require("../../assets/homeway.pk-Logo-final-01.png")} />
+                              <Text style={styles.modalText}>
+                                That Email is already registered 
+                                 </Text>
+                                   </View>                          
                    ) : (
               <Text style={styles.modalText}>
-                 <View style={{marginTop:2,backgroundColor:'red'}}>
+                 <View >
                    <Image
                      style={{backgroundColor:'white', height:150,width:250}}
                       resizeMode="stretch"
@@ -450,31 +460,30 @@ setTimeout(
                        </View>
                           Please Fill All Fields
                            </Text>  
-               )}
-           <Pressable
-              style={[styles.button, styles.buttonClose]}
-               onPress={() => setModalVisible(!toggleModal)}>
-               <Text style={{fontWeight:'bold',fontSize:20,borderWidth:3,width:110,textAlign:'center', backgroundColor: 'rgb(45, 110, 229)',color:'white',borderColor:'rgb(45, 110, 229)'}}>OK</Text>
-          </Pressable>
-
-      </View>
-    </View>
-   </Modal>
-  </View>
+                          )}
+              <Pressable
+                  style={ styles.buttonClose}
+                    onPress={() => setModalVisible(!toggleModal)}>
+                      <Text style={{fontWeight:'bold',fontSize:20,borderWidth:3,width:110,textAlign:'center', backgroundColor: 'rgb(45, 110, 229)',color:'white',borderColor:'rgb(45, 110, 229)'}}>OK</Text>
+                       </Pressable>
+                        </View>
+                         </View>
+                          </Modal>
+                                </View>
 
 {/* Success Modal End */}
-    <TouchableOpacity 
-        onPress={() => (submit(),checkPer(), setPressed(true))}       
-        style={styles.loginButton}>
-        <Text 
-         style={styles.loginButtonText}>Register Now 
-         </Text>
-     </TouchableOpacity>     
-          </View>
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-    </ScrollView>
+          <TouchableOpacity 
+                 onPress={() => (submit(), setPressed(true))}       
+                    style={styles.loginButton}>
+                      <Text 
+                        style={styles.loginButtonText}>Register Now 
+                         </Text>
+                          </TouchableOpacity>     
+                           </View>
+                             </View>
+                               </View>
+                                 </TouchableWithoutFeedback>
+                                   </ScrollView>
   );
 }
 
@@ -584,6 +593,8 @@ const styles = StyleSheet.create({
     borderWidth:1,
     borderColor:'white',
     color:'white',
+    
+
   },
   loginButton: {
     backgroundColor: 'rgb(45, 110, 229)',
@@ -655,7 +666,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    marginTop:10,
   },
   textStyle: {
     color: "white",
@@ -663,12 +674,13 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   modalText: {
-    marginBottom: 1,
-    textAlign: "center",
-
+    marginTop:-10,
+    color:'red',
+    fontSize:15,
+    fontWeight:'bold',
+    textAlign:'center',
   },
   scrollView: {
-    //backgroundColor: 'pink',
-    // marginHorizontal: 20,
+    
   },
 });

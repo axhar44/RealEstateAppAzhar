@@ -11,6 +11,7 @@ import {
   Keyboard,
   ScrollView,
   Pressable,
+  
 
   
 
@@ -39,7 +40,7 @@ export default function LoginScreen(props) {
   const [WrongLogin,setWrongLogin] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisiblerror, setModalVisiblerror] = useState(false);
-
+  const [UserPhone,setUserPhone] = useState('')
   const [value, onChangeText] = useState({
     
     phone: '',
@@ -48,8 +49,14 @@ export default function LoginScreen(props) {
   });
 
 
-
-
+  useEffect(()=>{
+    
+    getUserPhone();
+    // const unsubscribe = props.navigation.addListener('focus', () => {
+    //   //Alert.alert('Refreshed');
+    // });
+    // return unsubscribe;
+  },[]);
 
   const onChange = (str, val) => {
     switch (str) {
@@ -75,6 +82,8 @@ export default function LoginScreen(props) {
   };
 
   const { phone, email, password } = value;
+   value.phone = UserPhone;
+  console.log("User typing data Data",value);
   const login = () => {
     fetch(
       `${apiLinkPrefix}API/login.php?id=${email}&mobile=${phone}&pw=${password}`,
@@ -135,11 +144,24 @@ export default function LoginScreen(props) {
       setMessage(''),
     2000,
   );
-
-  
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  const getUserPhone = async () => {
+    try
+    {
+      const contact_number = await AsyncStorage.getItem('User_Phone');
+      console.log('user contact number',contact_number);
+      setUserPhone(contact_number);
+      value.phone = UserPhone;
+     
+    }catch(e)
+    {
+      console.log("User Conatct blank ",e);
+    }
+   
+ };
 
 
 
@@ -184,7 +206,9 @@ export default function LoginScreen(props) {
           
           <Text style={styles.loginTitleText}>Login</Text>
             <View style={styles.hr}></View>
-             <View style={styles.inputBox}>
+
+             {UserPhone ===null?(
+               <View style={styles.inputBox}>
                <Text style={styles.inputLabel}>Phone</Text>
                  <TextInput
                     style={styles.input}
@@ -194,6 +218,20 @@ export default function LoginScreen(props) {
                         onChangeText={(text) => onChange('PHONE', text)}
                          value={phone}/>
                           </View>
+               ):( 
+
+                <View style={styles.inputBoxContactField}>
+                <Text style={styles.inputLabel}>Phone</Text>
+                  <TextInput
+                     style={styles.input}
+                      autoCapitalize={false}
+                       keyboardType='email-address'
+                        textContentType='emailAddress'
+                         onChangeText={(text) => onChange('PHONE', text)}
+                          value={phone}/>
+                           </View>
+                )}  
+             
 
             <View style={styles.inputBox}>
               <Text style={styles.inputLabel}>Email</Text>
@@ -373,6 +411,11 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     marginTop: 10,
+   
+  },
+  inputBoxContactField: {
+    marginTop: 10,
+    display:"none",
   },
   inputLabel: {
     fontSize: 15,
