@@ -230,71 +230,40 @@ export default function forgot_Password(props) {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
      
       <View style={styles.container}>
-      <Image
-                        
-                        style={{backgroundColor:'white', height:800,width:'auto'}}
-                        source={require("../../assets/building.jpg")}
-                         />
-     
-      
-  
-        {/* <View style={styles.bigCircle}></View>
-        <View style={styles.smallCircle}></View> */}
-      
-     
+    <Image           
+      style={{backgroundColor:'white', height:800,width:'auto'}}
+        source={require("../../assets/building.jpg")}/>
         <View style={styles.centerizedView}>
-          
-          
           <View style={styles.authBox}>
-            
-          
-          <View style={styles.logoBox}>
-              {/* <Icon
-                color='#fff'
-                name='comments'
-                type='font-awesome'
-                size={50}
-              /> */}
-                 {/* style={{backgroundColor:'white', height:150,width:250}}
-                      resizeMode="stretch"
-                       source={require("../../assets/icon-check.png")} */}
+             <View style={styles.logoBox}>
               <Image source={require('../../assets/homeway.pk-Logo-final-01.png')}
-              style={{height:75,width:75,marginTop:-10}}
-
-              
-         />
-            </View>
-            <Text style={styles.loginTitleText}>Forgot Password</Text>
-            <View style={styles.hr}></View>
-            <View style={styles.inputBox}>
-              <Text style={styles.inputLabel}>Enter Your Email</Text>
-              <TextInput
-                style={styles.input}
-                autoCapitalize={false}
-                keyboardType='email-address'
-                textContentType='emailAddress'
-              />
-            </View>
-          
-            <TouchableOpacity
-            
-            // onPress={()=> props.navigation.navigate('Register_Screen')}
+                style={{height:75,width:75,marginTop:-10}}  />
+                </View>
+                   <Text style={styles.loginTitleText}>Forgot Password</Text>
+                    <View style={styles.hr}></View>
+                     <View style={styles.inputBox}>
+                      <Text style={styles.inputLabel}>Enter Your Email</Text>
+                        <TextInput
+                          style={styles.input}
+                            autoCapitalize={false}
+                              keyboardType='email-address'
+                                textContentType='emailAddress'
+                                  selectionColor={'white'}/>
+                                   </View>
+          <TouchableOpacity
             onPress={()=> props.navigation.navigate('Drawer_navigation')}
-
-            style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>Submit</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-            onPress={()=> props.navigation.navigate('RegisterScreen')}>
-
-              <Text style={styles.registerText}>
-                Don't have an account? Register Now
-              </Text>
-            </TouchableOpacity>
-          
-          </View>
-        </View>
-      </View>
+              style={styles.loginButton}>
+               <Text style={styles.loginButtonText}>Submit</Text>
+                 </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={()=> props.navigation.navigate('RegisterScreen')}>
+                        <Text style={styles.registerText}>
+                           Don't have an account? Register Now
+                           </Text>
+                             </TouchableOpacity>
+                               </View>
+                                 </View>
+                                   </View>
     </TouchableWithoutFeedback>
     </ScrollView>
   );

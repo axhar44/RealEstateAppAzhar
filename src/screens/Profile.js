@@ -69,13 +69,6 @@ const Logout_Session = async () => {
 };
 
 
-
-function hero(){
-  alert("aaaa");
-}
-
-
-
   return (
     <View style={styles.container}>
       <GlobalHeader headingText="Profile" back navigation={props.navigation} />

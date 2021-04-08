@@ -1,4 +1,5 @@
 import Home from './Home';
+import Settings from './Settings';
 import SignUp from './signUp';
 import Contacts from './Contacts';
 import Drawer_navigation from './Drawer_navigation';
@@ -10,7 +11,8 @@ import forgot_Password from './forgot_Password';
 import search_add from './Search';
 import Camera from './Camera';
 import Gallery from './Gallery';
-import Verification_Screen from './Verification_Screen'
+import Verification_Screen from './Verification_Screen';
+import App from '../../App';
 
 export {
 Splash,
@@ -26,6 +28,7 @@ Profile,
  Camera,
  Gallery,
  Verification_Screen,
-
+Settings,
+App,
     
   };

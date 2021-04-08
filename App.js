@@ -4,6 +4,8 @@ import RegisterContextProvider from './src/Context/RegisterContexts';
 import {NavigationContainer} from '@react-navigation/native';
 import StackNavigator from './src/stackNavigator';
 import Splash from './src/screens/Splash';
+import LangContextProvider from './src/Context/LangContext';
+
 
 
 //const Separator = () => <View style={styles.separator} />;
@@ -32,10 +34,12 @@ const [isLoading, loading] = useState(true);
  
     //<Splash />
     <NavigationContainer>
+        <LangContextProvider>
        <RegisterContextProvider>
          
          <StackNavigator />
           </RegisterContextProvider>
+          </LangContextProvider>
              </NavigationContainer>
   );
 };

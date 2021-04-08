@@ -1,4 +1,5 @@
-import React,{useState,useEffect} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
+
 import {
   StyleSheet,
   Text,
@@ -19,7 +20,14 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-community/async-storage';
-import Home from '../screens/Home';
+import GlobalHeader from '../components/GlobalHeader';
+
+import {LangContext} from '../Context/LangContext';
+ import {useIsFocused} from '@react-navigation/native';
+// import ToggleSwitch from 'toggle-switch-react-native';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import i18n from '../utils/language';
+import Ripple from 'react-native-material-ripple';
 
 
 
@@ -48,6 +56,24 @@ export default function LoginScreen(props) {
     password: '',
   });
 
+  const isFocused = useIsFocused();
+  const refRBSheet = useRef();
+  const refRBSheetB = useRef();
+
+  
+  let Fonts= '';
+  let ScreenSize= '';
+  let Icons= '';
+//   let useIsFocused= '';
+  let ToggleSwitch = '';
+
+  const {changeLang, language, changePush, pushStatus} = useContext(
+    LangContext,
+  );
+
+  const [actLanguage, setActLanguage] = useState(language);
+
+
 
   useEffect(()=>{
     
@@ -56,7 +82,15 @@ export default function LoginScreen(props) {
     //   //Alert.alert('Refreshed');
     // });
     // return unsubscribe;
-  },[]);
+  },[isFocused]);
+  var menu = ['My Profile'];
+  const sheet = [
+    {title: i18n.t('setting.text_language'), value: language.toUpperCase()},
+  ];
+  const languages = [
+    {title: 'English', code: 'en'},
+    {title: 'Spanish', code: 'sp'},
+  ];
 
   const onChange = (str, val) => {
     switch (str) {
@@ -164,23 +198,32 @@ export default function LoginScreen(props) {
  };
 
 
+ 
+
+
 
   return (
-
+ 
 
     <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-
-{/*       
-    {Active ==true ?(
-
-<Home/>
-):(
-<LoginScreen/>
-)
-} */}
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-     
+
+      
+   
+
       <View style={styles.container}>
+
+        
+      <GlobalHeader
+        headingText={i18n.t('setting.text_setting_haider')}
+        // headingText="Settings"
+        drawerIcon
+        navigation={props.navigation}
+        navigationDrawer={() => props.navigation.openDrawer()}
+      />
+
+
+
       <Image
                         
                         style={{backgroundColor:'white', height:800,width:'auto'}}
@@ -228,7 +271,10 @@ export default function LoginScreen(props) {
                        keyboardType='email-address'
                         textContentType='emailAddress'
                          onChangeText={(text) => onChange('PHONE', text)}
+                         selectionColor={'white'}
                           value={phone}/>
+
+
                            </View>
                 )}  
              
@@ -242,6 +288,7 @@ export default function LoginScreen(props) {
                 textContentType='emailAddress'
                 onChangeText={(text) => onChange('EMAIL', text)}
                 value={email}
+                selectionColor={'white'}
               />
             </View>
             <View style={styles.inputBox}>
@@ -252,6 +299,7 @@ export default function LoginScreen(props) {
                 secureTextEntry={true}
                 textContentType='password'
                 onChangeText={(text) => onChange('PASSWORD', text)}
+                selectionColor={'white'}
                 value={password}
               />
             </View>
@@ -316,6 +364,8 @@ export default function LoginScreen(props) {
                onPress={()=> props.navigation.navigate('forgot_Password')}>
                 <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                 </TouchableOpacity>
+
+                
                  </View>
                   </View>
                    </View>
@@ -439,6 +489,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingVertical: 10,
     borderRadius: 4,
+
   },
   
   loginButtonText: {

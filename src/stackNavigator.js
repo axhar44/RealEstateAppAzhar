@@ -16,6 +16,7 @@ import {
   Camera,
   Gallery,
   Verification_Screen,
+  Settings,
 } from './screens';
 
 import BottomTab from './BottomTab';
@@ -56,7 +57,7 @@ export default function MyStack(props) {
     }}>
      {Active ==null ? (
           
-            <Stack.Screen name="signUp" component={SignUp} />
+            <Stack.Screen name="SignUp" component={SignUp} />
           
         ) : (
           
@@ -72,7 +73,7 @@ export default function MyStack(props) {
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} /> 
       <Stack.Screen name="Drawer_navigation" component={Drawer_navigation} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="SignUp" component={SignUp} /> 
+      {/* <Stack.Screen name="SignUp" component={SignUp} />  */}
       {/* <Stack.Screen name="Contacts" component={Contacts} /> */}
       <Stack.Screen name="BottomTab" component={BottomTab} />
       <Stack.Screen name="Profile" component={Profile} />

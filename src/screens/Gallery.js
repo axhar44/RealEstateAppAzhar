@@ -14,7 +14,6 @@ import {
 // Import Image Picker
 // import ImagePicker from 'react-native-image-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import RNFetchBlob from 'rn-fetch-blob';
 
 const App = () => {
   const [filePath, setFilePath] = useState({});
@@ -149,40 +148,103 @@ const App = () => {
     });
   };
 
-  const uploadImage = async (response) => {
+  // const uploadImage = async (response) => {
 
-    console.log(response.type,"my response");
+  //   console.log(response.type,"my response");
 
 
+  //   if (response.type  !== undefined ) 
+  //   {
+
+
+  //     let data = new FormData();
+  //     data.append('submit', 'file');
+  //     data.append('file', {
+  //       uri: response.uri,
+  //       name: response.fileName,
+  //       type:  'image/jpeg',
+  //     });
+
+    
+
+
+  //     let res = await fetch('http://vbswebs.com/tugs/API/uploadimg.php', {
+  //       method: 'post',
+  //       body: data,
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data; ',
+  //       },
+  //     });
+      
+
+  //     let responseJson = await res.json();
+  //     console.log(responseJson, 'SUCCESSSSS');
+      
+
+  //     if (responseJson.status == 1) {
+  //       alert('Image Uploaded Successfuly');
+  //       console.log('SUCCESSSSS');
+  //     }
+  //   }else{
+  //     let data = new FormData();
+  //     data.append('submit', 'file');
+  //     data.append('file', {
+  //       uri: response.uri,
+  //       name: response.fileName,
+  //       type:  'video/mp4',
+  //     });
+    
+  //     // Please change file upload URL
+  //     let res = await fetch('http://vbswebs.com/tugs/API/uploadimg.php', {
+  //       method: 'post',
+  //       body: data,
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data; ',
+  //       },
+  //     });
+
+  //     let responseJson = await res.json();
+  //     console.log(responseJson, 'SUCCESSSSS');
+
+  //     if (responseJson.status == 1) {
+  //       alert('video Uploaded Successfuly');
+  //       console.log('SUCCESSSSS');
+  //     }
+  //   }
+  
+  // };
+
+ const uploadImage =  (response) => {
+
+
+  
     if (response.type  !== undefined ) 
     {
-
-
-      let data = new FormData();
-      data.append('submit', 'file');
-      data.append('file', {
-        uri: response.uri,
-        name: response.fileName,
-        type:  'image/jpeg',
+    let data = new FormData();
+        data.append('submit', 'file');
+        data.append('file', {
+          uri: response.uri,
+          name: response.fileName,
+          type:  'image/jpeg',
+        });
+  
+    fetch("http://vbswebs.com/tugs/API/uploadimg.php", {
+      method: "POST",
+      body: data,
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log("upload succes", response);
+        alert("Upload success!");
+       
+      })
+      .catch(error => {
+        console.log("upload error", error);
+        alert("Upload failed!");
       });
 
-
-      let res = await fetch('http://vbswebs.com/tugs/API/uploadimg.php', {
-        method: 'post',
-        body: data,
-        headers: {
-          'Content-Type': 'multipart/form-data; ',
-        },
-      });
-
-      let responseJson = await res.json();
-      console.log(responseJson, 'SUCCESSSSS');
-
-      if (responseJson.status == 1) {
-        alert('Image Uploaded Successfuly');
-        console.log('SUCCESSSSS');
-      }
-    }else{
+    }else
+    {
       let data = new FormData();
       data.append('submit', 'file');
       data.append('file', {
@@ -190,26 +252,27 @@ const App = () => {
         name: response.fileName,
         type:  'video/mp4',
       });
-    
-      // Please change file upload URL
-      let res = await fetch('http://vbswebs.com/tugs/API/uploadimg.php', {
-        method: 'post',
-        body: data,
-        headers: {
-          'Content-Type': 'multipart/form-data; ',
-        },
-      });
 
-      let responseJson = await res.json();
-      console.log(responseJson, 'SUCCESSSSS');
+  fetch("http://vbswebs.com/tugs/API/uploadimg.php", {
+    method: "POST",
+    body: data,
+  })
+    .then(response => response.json())
+    .then(response => {
+      console.log("upload succes", response);
+      alert("Upload success!");
+     
+    })
+    .catch(error => {
+      console.log("upload error", error);
+      alert("Upload failed!");
+    });
 
-      if (responseJson.status == 1) {
-        alert('video Uploaded Successfuly');
-        console.log('SUCCESSSSS');
-      }
     }
-  
   };
+
+
+  
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

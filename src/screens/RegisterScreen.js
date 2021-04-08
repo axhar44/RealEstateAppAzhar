@@ -52,8 +52,6 @@ export default function RegisterScreen(props) {
 
 
   useEffect(()=>{
-
-
     checkPermissions();
   },[])
 
@@ -369,6 +367,8 @@ const sent = async () => {
                             onBlur={() => validation()}
                               autoCapitalize={false}
                                keyboardType='Text'
+                                 selectionColor={'white'}
+
                                  textContentType='Text'
                                  />
                                   <Text style={styles.validation_error}>{Valid_first_name}</Text>
@@ -382,6 +382,7 @@ const sent = async () => {
                         autoCapitalize={false}
                          onBlur={() => validation()}
                            keyboardType='email-address'
+                           selectionColor={'white'}
                             textContentType='emailAddress'/>
                             <Text style={styles.validation_error}>{Valid_last_name}</Text>
                              </View>
@@ -393,6 +394,7 @@ const sent = async () => {
                    onChangeText={(text) => onChange('EMAIL',text) }
                     keyboardType='email-address'
                       textContentType='emailAddress'
+                      selectionColor={'white'}
                         onBlur={() => validation()} />
                           <Text style={styles.validation_error}>{Valid_email}</Text>
                            </View>
@@ -404,6 +406,7 @@ const sent = async () => {
                       onChangeText={(text) => onChange('PHONE',text)}
                         keyboardType='numeric'
                          maxLength={13}
+                         selectionColor={'white'}
                           textContentType='emailAddress'
                             onBlur={() => validation()}/>
                              <Text style={styles.validation_error}>{Valid_phone}</Text>
@@ -414,6 +417,7 @@ const sent = async () => {
                   style={styles.input}
                    autoCapitalize={false}
                     secureTextEntry={true}
+                    selectionColor={'white'}
                       textContentType='password'
                         onChangeText={(text) => onChange('PASSWORD', text)}
                           onBlur={() => validation()} />
@@ -425,6 +429,7 @@ const sent = async () => {
                    style={styles.input}
                     autoCapitalize={false}
                       secureTextEntry={true}
+                      selectionColor={'white'}
                         textContentType='password'
                 onBlur={() => validation()} />
           </View>
