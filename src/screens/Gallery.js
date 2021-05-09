@@ -235,12 +235,12 @@ const App = () => {
       .then(response => response.json())
       .then(response => {
         console.log("upload succes", response);
-        alert("Upload success!");
+        alert("Image Upload success!");
        
       })
       .catch(error => {
         console.log("upload error", error);
-        alert("Upload failed!");
+        alert("Image Upload failed!");
       });
 
     }else
@@ -260,12 +260,12 @@ const App = () => {
     .then(response => response.json())
     .then(response => {
       console.log("upload succes", response);
-      alert("Upload success!");
+      alert("Video Upload success!");
      
     })
     .catch(error => {
       console.log("upload error", error);
-      alert("Upload failed!");
+      alert(" Video Upload failed!");
     });
 
     }

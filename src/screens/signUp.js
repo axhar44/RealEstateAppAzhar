@@ -208,6 +208,9 @@ export default function LoginScreen(props) {
     <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 
+
+
+    
       
    
 
@@ -237,6 +240,35 @@ export default function LoginScreen(props) {
       
      
         <View style={styles.centerizedView}>
+
+        {/* {languages.map((v, i) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => setActLanguage(v.code)}
+                         >
+                          <View>
+                            <Text
+                              style={{
+                                color:
+                                  actLanguage == v.code ? '#28a8e9' : 'gray',
+                                // fontFamily: Fonts.Regular,
+                              }}>
+                              {v.title}
+                            </Text>
+                          </View>
+                          <View style={styles.rowRight}>
+                            {actLanguage == v.code && (
+                              // <Icons.AntDesign
+                              //   name="check"
+                              //   color="#28a8e9"
+                              //   size={25}
+                              // />
+                            )}
+                          </View>
+                        </TouchableOpacity>
+                      );
+                    })} */}
+
           
           
           <View style={styles.authBox}>

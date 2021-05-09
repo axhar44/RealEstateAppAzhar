@@ -10,6 +10,7 @@ target 'GetMe' do
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
+
   target 'GetMeTests' do
     inherit! :complete
     # Pods for testing
